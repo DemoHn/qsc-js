@@ -1,3 +1,6 @@
+// watering script by Zeno Zeng
+// qsc浇花脚本
+
 var loadscript =
     {
 	$$:function(id){return document.getElementById(id)},
@@ -38,6 +41,8 @@ loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function(){
 
         watering(i);
         i = i+1;
+
+        console.log('--- '+i+' ---');
 
     }, tryTimeout*2);
 });
