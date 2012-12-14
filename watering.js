@@ -40,7 +40,8 @@ function getMoreFlowersToWater(url, myCallback) {
 
 
             // 绕过置顶
-            if($(this).parent().parent().attr('id').indexOf('stickthread') != -1)
+            if($(this).parent().parent().attr('id') &&
+               $(this).parent().parent().attr('id').indexOf('normalthread') == -1)
               return;
 
             var href = $(this).find('span  a').attr('href');
