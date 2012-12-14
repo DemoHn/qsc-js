@@ -1,6 +1,9 @@
 // watering script by Zeno Zeng
 // qsc浇花脚本
 
+
+console.log('QSC watering script by Zeno Zeng');
+
 var loadscript =
     {
 	$$:function(id){return document.getElementById(id)},
@@ -42,8 +45,8 @@ var action = [
   }
 ];
 
-var go,iframe;
-var tryTimeout = 30*1000;// 30s*2 等待
+var go,iframe,content;
+var i = 0;
 
 var answer = ['呵呵，看看',
               '好的嘛，我又来了……',
@@ -52,21 +55,15 @@ var answer = ['呵呵，看看',
               '好的嘛，好的嘛，好的嘛',
               '别理我，我在水'];
 
+
+
+console.log('loading jQuery');
+
 loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function(){
-    var i = 0;
-    setInterval(function() {
-
-        console.log('start');
-
-        watering(i);
-        i = i+1;
-
-        console.log('--- '+i+' ---');
-
-    }, tryTimeout*2);
+    console.log('jQuery Done');
+    watering(i);
 });
 
-var content = answer[0]
 
 function watering(i) {
 
@@ -75,9 +72,7 @@ function watering(i) {
 
     console.log(iframe);
 
-
-    content = answer[i % (answer.length)];
-    console.log(content);
+    content = answer[getRandom(answer.length) - 1];
 
     $('body').html(iframe);
     setTimeout(function() {
@@ -89,5 +84,5 @@ function watering(i) {
 
         console.log('waiting for watering again');
 
-    }, tryTimeout);
+    }, getRandom(30000)+30000);
 }
