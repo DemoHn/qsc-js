@@ -22,8 +22,27 @@ var loadscript =
 	}
     }
 
-var go = ["http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1"];
-var iframe = '<iframe src="'+go+'" name="ifrmname" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
+function getRandom(n){return Math.floor(Math.random()*n+1)}
+
+var action = [
+  {
+      url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
+      action:false,
+      minsleep:1000
+  },
+  {
+      url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/forumdisplay.php?fid=210',
+      action:false,
+      minsleep:2000
+  },
+  {
+      url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1',
+      action:true,
+      minsleep:1000
+  }
+];
+
+var go,iframe;
 var tryTimeout = 30*1000;// 30s*2 等待
 
 var answer = ['呵呵，看看',
@@ -51,8 +70,13 @@ var content = answer[0]
 
 function watering(i) {
 
+    go = action[i % (action.length)]['url'];
+    iframe = '<iframe src="'+go+'" name="ifrmname" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
+
+    console.log(iframe);
+
+
     content = answer[i % (answer.length)];
-    console.log(i % (answer.length + 1));
     console.log(content);
 
     $('body').html(iframe);
