@@ -34,18 +34,18 @@ var actionArr = [[
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
       action:false,
       postSleep:0,
-      leaveSleep:1000
+      leaveSleep:10000
   },
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/forumdisplay.php?fid=210',
       action:false,
       postSleep:0,
-      leaveSleep:1000
+      leaveSleep:10000
   },
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1',
       action:true,
-      postSleep:2500,
+      postSleep:25000,
       leaveSleep:30000
   }
 ]];
@@ -83,16 +83,18 @@ function watering(i) {
 
     $('body').html(iframe);
 
-    setTimeout(function() {
-        $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
-        console.log('#fastpostmessage done');
+    if(action['action']) {
+        setTimeout(function() {
+            $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
+            console.log('#fastpostmessage done');
 
-        $("#fastpostsubmit",  window.frames['ifrmname'].document).click();
-        console.log('submit done');
+            $("#fastpostsubmit",  window.frames['ifrmname'].document).click();
+            console.log('submit done');
 
-        console.log('waiting for watering again');
+            console.log('waiting for watering again');
 
-    }, getRandom(action['postSleep'])+action['postSleep']);
+        }, getRandom(action['postSleep'])+action['postSleep']);
+    }
 
     setTimeout(function() {
         i = i+1;
