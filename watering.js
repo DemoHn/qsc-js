@@ -1,8 +1,6 @@
 // watering script by Zeno Zeng
 // qsc浇花脚本
 
-//todo: 多路线支持
-
 console.log('QSC watering script by Zeno Zeng');
 
 var loadscript =
