@@ -82,8 +82,6 @@ function getMoreFlowersToWater(url, myCallback) {
 var j;
 function watering(i) {
 
-    console.log('TRY  [FOR]  '+i);
-
     j = getRandom(actionArr.length) - 1;
 
     action = actionArr[j][i % (actionArr[j].length)];
@@ -98,6 +96,9 @@ function watering(i) {
 
     if(action['action']) {
         setTimeout(function() {
+            tryTimes += 1;
+            console.log('TRY [FOR] '+ tryTimes);
+
             console.log('POSTING  [AT]  ' + new Date);
 
             $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
@@ -147,6 +148,7 @@ var actionArr = [
 
 var go,iframe,content,action;
 var i = 0;
+var tryTimes = 0;
 
 var answer = ['呵呵，wo 就看看……',
               '好的嘛，我又来酱油了……',
