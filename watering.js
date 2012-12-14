@@ -1,6 +1,8 @@
 // watering script by Zeno Zeng
 // qsc浇花脚本
 
+//todo: 多路线支持
+
 
 console.log('QSC watering script by Zeno Zeng');
 
@@ -27,25 +29,28 @@ var loadscript =
 
 function getRandom(n){return Math.floor(Math.random()*n+1)}
 
-var action = [
+var actionArr = [[
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
       action:false,
-      minsleep:1000
+      postSleep:0,
+      leaveSleep:1000
   },
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/forumdisplay.php?fid=210',
       action:false,
-      minsleep:2000
+      postSleep:0,
+      leaveSleep:1000
   },
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1',
       action:true,
-      minsleep:1000
+      postSleep:2500,
+      leaveSleep:30000
   }
-];
+]];
 
-var go,iframe,content;
+var go,iframe,content,action;
 var i = 0;
 
 var answer = ['呵呵，看看',
@@ -67,16 +72,17 @@ loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function(){
 
 function watering(i) {
 
-    go = action[i % (action.length)]['url'];
-    iframe = '<iframe src="'+go+'" name="ifrmname" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
+    action = actionArr[0][i % (actionArr[0].length)];
+    go = action['url'];
 
-    console.log(iframe);
+    console.log('go to '+go);
+
+    iframe = '<iframe src="'+go+'" name="ifrmname" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
 
     content = answer[getRandom(answer.length) - 1];
 
-    if(iframe)
-      $('body').html(iframe);
-    
+    $('body').html(iframe);
+
     setTimeout(function() {
         $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
         console.log('#fastpostmessage done');
@@ -86,5 +92,10 @@ function watering(i) {
 
         console.log('waiting for watering again');
 
-    }, getRandom(30000)+30000);
+    }, getRandom(action['postSleep'])+action['postSleep']);
+
+    setTimeout(function() {
+        i = i+1;
+        watering(i);
+    }, getRandom(action['leaveSleep'])+action['leaveSleep']);
 }
