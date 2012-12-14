@@ -36,7 +36,13 @@ function getMoreFlowersToWater(url, myCallback) {
 
     setTimeout(function () {
         console.log('getting more flowers to water');
-        $('body', window.frames['flower'].document).find('.subject.common').each(function() {
+        $('body', window.frames['flower'].document).find('.subject').each(function() {
+
+
+            // 绕过置顶
+            if($(this).parent().parent().attr('id').indexOf('stickthread') != -1)
+              return;
+
             var href = $(this).find('span  a').attr('href');
             actionArr.push([
               {
