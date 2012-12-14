@@ -72,7 +72,7 @@ function getMoreFlowersToWater(url, myCallback) {
 var j;
 function watering(i) {
 
-    j = getRandom(actionArr) - 1;
+    j = getRandom(actionArr.length) - 1;
 
     action = actionArr[j][i % (actionArr[j].length)];
     go = action['url'];
