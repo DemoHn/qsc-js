@@ -35,6 +35,7 @@ function getMoreFlowersToWater(url, myCallback) {
     $('body').html(iframe);
 
     setTimeout(function () {
+        console.log('getting more flowers to water');
         $('body', window.frames['flower'].document).find('.subject.common').each(function() {
             var href = $(this).find('span  a').attr('href');
             actionArr.push([
@@ -66,7 +67,7 @@ function getMoreFlowersToWater(url, myCallback) {
             console.log('ADD  '+href);
         });
         myCallback();
-    }, 15000);
+    }, 25000);
 }
 
 var j;
