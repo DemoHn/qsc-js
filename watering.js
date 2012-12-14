@@ -146,12 +146,12 @@ var actionArr = [
 var go,iframe,content,action;
 var i = 0;
 
-var answer = ['呵呵，看看',
-              '好的嘛，我又来了……',
-              '默默地再水一发……',
+var answer = ['呵呵，wo 就看看……',
+              '好的嘛，我又来酱油了……',
+              '默默地再水一发，然后消失……',
               '呵呵，呵呵，呵呵',
               '好的嘛，好的嘛，好的嘛',
-              '别理我，我在水'];
+              '别理我，我默默在水'];
 
 console.log('loading jQuery');
 
