@@ -142,6 +142,26 @@ var actionArr = [
         postSleep:25000,
         leaveSleep:60000
     }
+  ],
+  [
+    {
+        url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
+        action:false,
+        postSleep:0,
+        leaveSleep:10000
+    },
+    {
+        url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/forumdisplay.php?fid=245',
+        action:false,
+        postSleep:0,
+        leaveSleep:10000
+    },
+    {
+        url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=43171&extra=&page=1',
+        action:true,
+        postSleep:25000,
+        leaveSleep:60000
+    }
   ]
 ];
 
