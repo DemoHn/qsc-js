@@ -45,6 +45,10 @@ function getMoreFlowersToWater(url, myCallback) {
               return;
 
             var href = $(this).find('span  a').attr('href');
+
+            if(!href)
+              return;
+
             actionArr.push([
               {
                   url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
