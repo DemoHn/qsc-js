@@ -61,7 +61,7 @@ function getMoreFlowersToWater(url, myCallback) {
                   url:href,
                   action:true,
                   postSleep:25000,
-                  leaveSleep:50000
+                  leaveSleep:60000
               }
             ]);
             console.log('ADD  '+href);
@@ -128,7 +128,7 @@ var actionArr = [
         url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1',
         action:true,
         postSleep:25000,
-        leaveSleep:50000
+        leaveSleep:60000
     }
   ]
 ];
