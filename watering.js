@@ -69,10 +69,12 @@ function getMoreFlowersToWater(url, myCallback) {
     }, 15000);
 }
 
-
+var j;
 function watering(i) {
 
-    action = actionArr[0][i % (actionArr[0].length)];
+    j = getRandom(actionArr) - 1;
+
+    action = actionArr[j][i % (actionArr[j].length)];
     go = action['url'];
 
     console.log('go to '+go);
