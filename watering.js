@@ -29,6 +29,8 @@ var loadscript =
 
 function getRandom(n){return Math.floor(Math.random()*n+1)}
 
+// Attention: leaveSleep should >= 2*postSleep
+
 var actionArr = [[
   {
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/',
@@ -46,7 +48,7 @@ var actionArr = [[
       url:'http://www.qsc.zju.edu.cn/apps/editor_bbs/viewthread.php?tid=45475&extra=page%3D1',
       action:true,
       postSleep:25000,
-      leaveSleep:30000
+      leaveSleep:50000
   }
 ]];
 
@@ -85,6 +87,8 @@ function watering(i) {
 
     if(action['action']) {
         setTimeout(function() {
+            console.log('POSTING  [AT]' + new Date);
+
             $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
             console.log('#fastpostmessage done');
 
@@ -97,6 +101,8 @@ function watering(i) {
     }
 
     setTimeout(function() {
+        console.log('LEAVING  [AT]  ' + new Date);
+
         i = i+1;
         watering(i);
     }, getRandom(action['leaveSleep'])+action['leaveSleep']);
