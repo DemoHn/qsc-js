@@ -74,7 +74,9 @@ function watering(i) {
 
     content = answer[getRandom(answer.length) - 1];
 
-    $('body').html(iframe);
+    if(iframe)
+      $('body').html(iframe);
+    
     setTimeout(function() {
         $("#fastpostmessage", window.frames['ifrmname'].document).html(content);
         console.log('#fastpostmessage done');
