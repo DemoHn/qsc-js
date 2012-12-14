@@ -31,7 +31,7 @@ function getRandom(n){return Math.floor(Math.random()*n+1)}
 
 function getMoreFlowersToWater(url, myCallback) {
 
-    iframe = '<iframe src="'+go+'" name="flower" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
+    iframe = '<iframe src="'+url+'" name="flower" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
     $('body').html(iframe);
 
     setTimeout(function () {
