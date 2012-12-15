@@ -64,7 +64,7 @@ function start() {
 }
 
 function log(content) {
-    $('#log').prepend('<span style="color:deepskyblue">QSC-Watering-98.js # </span>'+content+'<br>');
+    $('#log').prepend('<span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'<br>');
 }
 
 function switchUser() {
@@ -92,7 +92,7 @@ var targetPosts = [];
 
 var users = [];
 
-
+var currentUsername = 'Original User';
 
 // 从localStroage读取users 和 targetPosts
 
