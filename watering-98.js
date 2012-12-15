@@ -59,7 +59,7 @@ function init() {
 }
 
 function start() {
-    $('body').append('<div id="log" style="position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
+    $('body').append('<div id="log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
     log('Init Done.');
 }
 
