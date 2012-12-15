@@ -10,6 +10,7 @@ var loadscript =
 	ce:function(element){return document.createElement(element)},
 	js:function(url,callback)
 	{
+            var s;
 	    s = loadscript.ce('script');
 	    s.type = "text/javascript";
 	    s.onreadystatechange = ready;
