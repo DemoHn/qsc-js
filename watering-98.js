@@ -4,8 +4,6 @@
 // 因为98的防范好像比较弱，所以就没有做一些特殊的功能——比如频率摆动、模拟路径之类
 
 
-// todo: 日志写到一个半透明的div里
-
 var loadscript  = {
     $$:function(id){return document.getElementById(id)},
     tag:function(element){return document.getElementsByTagName(element)},
@@ -31,25 +29,34 @@ var loadscript  = {
 function init() {
     console.log('INIT');
 
-    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" style="float:left;"/><div style="float:left;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="contents" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
+    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="qsc-98-config-done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" style="float:left;"/><div style="float:left;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="qsc-98-config-users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="qsc-98-config-targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="qsc-98-config-answers" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
 
     // 若存在localStroage则从中读取，并写入上面的弹窗
 
 
-    $('#done').click(function() {
-        // 解析数据
-
+    $('#qsc-98-config-done').click(function() {
         $('#qsc-98-config').hide();
+
+        useCurrentUser = $('#qsc-98-config input').val();
+
+        var tmp,i;
+        tmp = $('#qsc-98-config-users').val().split('\n');
+        for(i=0; i+1<tmp.length; i+2) {
+            users.push({username:tmp[i],password:tmp[i+1]});
+        }
+
+        targetPosts = $('#qsc-98-config-targets').val().split('\n');
+
+        answers = $('#qsc-98-config-answers').val().split('\n');
 
         if(!users) {
             useCurrentUser = true;
         }
 
-        // 将这些东西写入localStroage
-        localStorage.setItem('targetPosts', JSON.stringify(targetPosts));
-
         if(!useCurrentUser)
           localStorage.setItem('users', JSON.stringify(users));
+        localStorage.setItem('targetPosts', JSON.stringify(targetPosts));
+        localStorage.setItem('answers', JSON.stringify(answers));
 
         start();
     });
@@ -59,19 +66,21 @@ function init() {
 }
 
 function start() {
-    $('body').append('<div id="log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
+    $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
     log('Init Done.');
 }
 
 function log(content) {
-    $('#log').prepend('<span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'<br>');
+    $('#qsc-98-log').prepend('<span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'<br>');
 }
 
 function switchUser() {
 
     // logout
+    log('LOGOUT');
 
     // login
+    log('LOGIN');
 }
 
 function autoPost() {
@@ -79,22 +88,12 @@ function autoPost() {
 }
 
 
-// 只使用当前已登录的账户？ 若为false，则使用users列表中提供的账户
-var useCurrentUser = true;
-
-// 这里放帖子的地址
+var useCurrentUser;
+var users = [];
+var answers = [];
 var targetPosts = [];
 
-// var users = [{
-//     username:'username',
-//     password:'password'
-// }];
-
-var users = [];
-
 var currentUsername = 'Original User';
-
-// 从localStroage读取users 和 targetPosts
 
 loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function() {
     console.log('jQuery Done');
