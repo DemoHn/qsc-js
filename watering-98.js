@@ -37,7 +37,7 @@ function init() {
     $('#qsc-98-config-done').click(function() {
         $('#qsc-98-config').hide();
 
-        useCurrentUser = $('#qsc-98-config input').val();
+        useCurrentUser = $('#qsc-98-config input[type=checkbox]:checked').val() == 'on' ? true : false;
 
         var tmp,i;
         tmp = $('#qsc-98-config-users').val().split('\n');
