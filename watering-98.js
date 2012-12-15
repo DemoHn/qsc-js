@@ -64,7 +64,7 @@ function start() {
 }
 
 function log(content) {
-    $('#log').prepend('QSC-Watering-98.js # '+content+'<br>');
+    $('#log').prepend('<span styl="color:deepskyblue">QSC-Watering-98.js # </span>'+content+'<br>');
 }
 
 function switchUser() {
