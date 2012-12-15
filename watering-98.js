@@ -41,7 +41,7 @@ function init() {
 
         var tmp,i;
         tmp = $('#qsc-98-config-users').val().split('\n');
-        for(i=0; i+1<tmp.length; i+2) {
+        for(i=0; i < tmp.length - 1; i = i+2) {
             users.push({username:tmp[i],password:tmp[i+1]});
         }
 
