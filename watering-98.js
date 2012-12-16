@@ -90,7 +90,7 @@ function init() {
         localStorage.setItem('answers', JSON.encode(answers));
         localStorage.setItem('useCurrentUser', useCurrentUser);
 
-        $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.9;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
+        $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.9;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;"><span style="color:orange">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</span></div>');
 
         log('target: ' + JSON.encode(targetPosts));
         log('answers: ' + JSON.encode(answers));
@@ -120,22 +120,41 @@ function init() {
 
 }
 
-function start() {
-    var iframe,url;
-    $('body').append('<div id="qsc-98-iframe"></div>');
-
-    for(var i=0; i<targetPosts.length; i++) {
-        url = targetPosts[i];
-        iframe = '<iframe src="'+url+'" name="flower" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
-        $("#qsc-98-iframe").html(iframe);
-
-        log('GOTO '+url);
-    }
-}
-
 function log(content) {
-    $('#qsc-98-log').prepend('<span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'<br>');
+    $('#qsc-98-log').prepend('<div class="qsc-98-log" style="display:none;"><span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'</div>');
+    $('.qsc-98-log').show(1000);
 }
+
+function start() {
+    $('body').append('<div id="qsc-98-iframe" style="width:90%;position:fixed;z-index:998;left:0;top:0;"></div>');
+
+    go(0);
+}
+
+function go(i) {
+    var iframe,url;
+
+    i = i % targetPosts.length;
+
+    url = targetPosts[i];
+    iframe = '<iframe src="'+url+'" name="flower" id="qsc-98-iframe-in" style="min-width:100%; min-height:100%;"></iframe>';
+    $("#qsc-98-iframe").html(iframe);
+
+    log('GOTO '+url);
+
+    setTimeout(function() {
+        autoPost();
+        log('Auto Post');
+    }, 15000);
+
+    setTimeout(function() {
+        go(i+1);
+    }, 25000);
+}
+
+function autoPost() {
+}
+
 
 function switchUser() {
 
@@ -146,9 +165,6 @@ function switchUser() {
     log('LOGIN');
 }
 
-function autoPost() {
-
-}
 
 
 var useCurrentUser;
