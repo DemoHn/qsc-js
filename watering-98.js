@@ -40,6 +40,7 @@ function init() {
     var usersLast = localStorage.getItem('users') ? JSON.decode(localStorage.getItem('users')) : false;
     var targetPostsLast = localStorage.getItem('targetPosts') ? JSON.decode(localStorage.getItem('targetPosts')) : false;
     var answersLast = localStorage.getItem('answers') ? JSON.decode(localStorage.getItem('answers')) : false;
+    var useCurrentUserLast = localStorage.getItem('useCurrentUser') ? true : false;
 
     if(usersLast) {
         var usersLastText = '';
@@ -50,7 +51,15 @@ function init() {
     }
 
     if(answersLast) {
+        $('#qsc-98-config-answers').val(answersLast);
+    }
 
+    if(targetPostsLast) {
+        $('#qsc-98-config-targets').val(targetPostsLast);
+    }
+
+    if(useCurrentUserLast) {
+        $('#qsc-98-config input[type=checkbox]:checked').val() = useCurrentUserLast;
     }
 
 
@@ -77,6 +86,7 @@ function init() {
           localStorage.setItem('users', JSON.encode(users));
         localStorage.setItem('targetPosts', JSON.encode(targetPosts));
         localStorage.setItem('answers', JSON.encode(answers));
+        localStorage.useCurrentUser('useCurrentUser', useCurrentUser);
 
         $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
 
