@@ -31,6 +31,8 @@ function init() {
     $('#qsc-98-log').remove();
     $('#qsc-98-iframe').remove();
 
+    clearTimeout(lastGo);
+    clearTimeout(lastPost);
 
     // 删除旧的js
     $('#qsc-98-js').remove();
@@ -121,6 +123,7 @@ function init() {
 }
 
 function log(content) {
+    console.log(content);
     $('#qsc-98-log').prepend('<div class="qsc-98-log" style="display:none;"><span style="color:deepskyblue">'+currentUsername+' # </span>'+content+'</div>');
     $('.qsc-98-log').show(1000);
 }
@@ -131,10 +134,15 @@ function start() {
     go(0);
 }
 
+var lastGo;
+var lastPost;
 function go(i) {
     var iframe,url;
 
-    i = i % targetPosts.length;
+    if(i == targetPosts.length) {
+        switchUser();
+        i -= targetPosts.length;
+    }
 
     url = targetPosts[i];
     iframe = '<iframe src="'+url+'" name="flower" id="qsc-98-iframe-in" style="min-width:100%; min-height:100%;"></iframe>';
@@ -142,12 +150,12 @@ function go(i) {
 
     log('GOTO '+url);
 
-    setTimeout(function() {
+    lastPost = setTimeout(function() {
         autoPost();
         log('Auto Post');
     }, 15000);
 
-    setTimeout(function() {
+    lastGo = setTimeout(function() {
         go(i+1);
     }, 25000);
 }
@@ -158,10 +166,8 @@ function autoPost() {
 
 function switchUser() {
 
-    // logout
     log('LOGOUT');
 
-    // login
     log('LOGIN');
 }
 
