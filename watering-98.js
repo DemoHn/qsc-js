@@ -26,10 +26,10 @@ var loadscript  = {
     }
 }
 
-
 function init() {
     $('#qsc-98-config').remove();
     $('#qsc-98-log').remove();
+    $('#qsc-98-iframe').remove();
 
 
     // 删除旧的js
@@ -38,7 +38,7 @@ function init() {
 
     console.log('INIT');
 
-    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="qsc-98-config-done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" name="qsc-98-config-use-current-user" style="float:left;"/><div style="float:left;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="qsc-98-config-users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="qsc-98-config-targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="qsc-98-config-answers" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
+    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="qsc-98-config-done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" name="qsc-98-config-use-current-user" style="float:left;"/><div style="float:left;margin-top:2px;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="qsc-98-config-users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="qsc-98-config-targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="qsc-98-config-answers" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
 
     // 若存在localStroage则从中读取，并写入上面的弹窗
 
@@ -55,10 +55,10 @@ function init() {
         $('#qsc-98-config-users').val(usersLastText);
     }
     if(answersLast) {
-        $('#qsc-98-config-answers').val(answersLast);
+        $('#qsc-98-config-answers').val(answersLast.join('\n'));
     }
     if(targetPostsLast) {
-        $('#qsc-98-config-targets').val(targetPostsLast);
+        $('#qsc-98-config-targets').val(targetPostsLast.join('\n'));
     }
     if(useCurrentUserLast) {
         $('input[name="qsc-98-config-use-current-user"]').attr('checked', 'checked');
@@ -114,7 +114,6 @@ function init() {
 
         currentUsername = originalUsername;
 
-
         start();
     });
 
@@ -122,6 +121,16 @@ function init() {
 }
 
 function start() {
+    var iframe,url;
+    $('body').append('<div id="qsc-98-iframe"></div>');
+
+    for(var i=0; i<targetPosts.length; i++) {
+        url = targetPosts[i];
+        iframe = '<iframe src="'+url+'" name="flower" id="ifrmid" style="min-width:100%; min-height:100%;"></iframe>';
+        $("#qsc-98-iframe").html(iframe);
+
+        log('GOTO '+url);
+    }
 }
 
 function log(content) {
