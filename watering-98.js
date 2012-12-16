@@ -61,6 +61,7 @@ function init() {
         $('#qsc-98-config-targets').val(targetPostsLast);
     }
     if(useCurrentUserLast) {
+        $('input[name="qsc-98-config-use-current-user"]').attr('checked', 'checked');
     }
 
 
@@ -149,11 +150,11 @@ var targetPosts = [];
 var currentUsername = 'ROOT';
 
 if (typeof jQuery == 'undefined') {
-    console.log('jQuery already Loaded');
-    init();
-} else {
     loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function() {
         console.log('jQuery Done');
         init();
     });
+} else {
+    console.log('jQuery already Loaded');
+    init();
 }
