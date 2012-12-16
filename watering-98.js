@@ -139,36 +139,59 @@ var lastPost;
 function go(i) {
     var iframe,url;
 
-    if(i == targetPosts.length) {
-        switchUser();
-        i -= targetPosts.length;
-    }
+    if(i == targetPosts.length)
+      i -= targetPosts.length;
 
-    url = targetPosts[i];
-    iframe = '<iframe src="'+url+'" name="flower" id="qsc-98-iframe-in" style="min-width:100%; min-height:100%;"></iframe>';
-    $("#qsc-98-iframe").html(iframe);
+    if(i == 0 && !useCurrentUser)
+      switchUser();
 
-    log('GOTO '+url);
+    // offset略大于下面的login
+    setTimeout(function() {
+        url = targetPosts[i];
+        iframe = '<iframe src="'+url+'" name="qsc-98-iframe-in" id="qsc-98-iframe-in" style="min-width:100%; min-height:100%;"></iframe>';
+        $("#qsc-98-iframe").html(iframe);
+        log('GOTO '+url);
+    }, 10000);
+
 
     lastPost = setTimeout(function() {
         autoPost();
         log('Auto Post');
-    }, 15000);
+    }, 20000);
 
     lastGo = setTimeout(function() {
         go(i+1);
-    }, 25000);
+    }, 30000);
 }
 
+function getRandom(n){return Math.floor(Math.random()*n)}
 function autoPost() {
+    $('#content', window.frames['qsc-98-iframe-in'].document).val(answers.getRandom(answers.length));
+    $('input[type="submit"][name="Submit"]', window.frames['qsc-98-iframe-in'].document).click();
 }
 
-
+var userSwitchCount = 0;
 function switchUser() {
+    var url,iframe,user;
 
-    log('LOGOUT');
+    userSwitchCount = userSwitchCount % users.length;
+    user = users[userSwitchCount];
+    userSwitchCount += 1;
 
-    log('LOGIN');
+    url = 'http://hz.cc98.lifetoy.org/login.asp';
+    iframe = '<iframe src="'+url+'" name="qsc-98-iframe-in" id="qsc-98-iframe-in" style="min-width:100%; min-height:100%;"></iframe>';
+    $("#qsc-98-iframe").html(iframe);
+
+    setTimeout(function() {
+        $('#userName', window.frames['qsc-98-iframe-in'].document).val(user.username);
+        $('#password', window.frames['qsc-98-iframe-in'].document).val(user.password);
+        $('#submit', window.frames['qsc-98-iframe-in'].document).click();
+    }, 3000);
+
+    setTimeout(function() {
+        currentUsername = $('td.TopLighNav1 b', window.frames['qsc-98-iframe-in'].document).html();
+        log('LOGIN');
+    }, 8000);
 }
 
 
