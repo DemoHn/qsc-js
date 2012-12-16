@@ -31,16 +31,21 @@ function init() {
     $('#qsc-98-config').remove();
     $('#qsc-98-log').remove();
 
+
+    // 删除旧的js
+    $('#qsc-98-js').remove();
+    $('script[src="http://localhost/qsc-js/watering-98.js"]').attr('id', 'qsc-98-js');
+
     console.log('INIT');
 
-    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="qsc-98-config-done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" style="float:left;"/><div style="float:left;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="qsc-98-config-users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="qsc-98-config-targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="qsc-98-config-answers" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
+    $('body').append('<div id="qsc-98-config" style="font-size:12px;line-height:14px;text-align:left;opacity:.8;border-radius:8px;box-shadow: 0 0 15px #000;background:#000;color:#fff;position:fixed;width:600px;height:500px;top:50%;left:50%;margin-left:-300px;margin-top:-250px;z-index:9999;"><div style="padding:3em;">请按照下面示例的格式输入，任意多个都可以，但要遵照格式。<div id="qsc-98-config-done" style="color:#000;float:right;background:#fff;border-radius:5px;padding:1em;margin-top:-1.5em;cursor:pointer;">DONE</div><br><br><br><input type="checkbox" name="qsc-98-config-use-current-user" style="float:left;"/><div style="float:left;">用且仅用当前已登录用户发帖</div><br><br><br>用户及密码（若勾选了上面的，不用管）<br><br><textarea id="qsc-98-config-users" style="border-radius:5px;padding:1em;outline:none;width:90%;height:5em;">用户一\n用户一密码\n用户二\n用户二密码\n</textarea><br><br><br><textarea id="qsc-98-config-targets" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">帖子一地址\n帖子二地址</textarea><br><br><br><textarea id="qsc-98-config-answers" style="width:90%;outline:none;height:5em;border-radius:5px;padding:1em;">随机回复内容一\n随机回复内容二</textarea></div></div>');
 
     // 若存在localStroage则从中读取，并写入上面的弹窗
 
     var usersLast = localStorage.getItem('users') ? JSON.decode(localStorage.getItem('users')) : false;
     var targetPostsLast = localStorage.getItem('targetPosts') ? JSON.decode(localStorage.getItem('targetPosts')) : false;
     var answersLast = localStorage.getItem('answers') ? JSON.decode(localStorage.getItem('answers')) : false;
-    var useCurrentUserLast = localStorage.getItem('useCurrentUser') ? true : false;
+    var useCurrentUserLast = localStorage.getItem('useCurrentUser') == "true" ? true : false;
 
     if(usersLast) {
         var usersLastText = '';
@@ -49,17 +54,13 @@ function init() {
         };
         $('#qsc-98-config-users').val(usersLastText);
     }
-
     if(answersLast) {
         $('#qsc-98-config-answers').val(answersLast);
     }
-
     if(targetPostsLast) {
         $('#qsc-98-config-targets').val(targetPostsLast);
     }
-
     if(useCurrentUserLast) {
-        $('#qsc-98-config input[type=checkbox]:checked').val() = useCurrentUserLast;
     }
 
 
@@ -86,9 +87,9 @@ function init() {
           localStorage.setItem('users', JSON.encode(users));
         localStorage.setItem('targetPosts', JSON.encode(targetPosts));
         localStorage.setItem('answers', JSON.encode(answers));
-        localStorage.useCurrentUser('useCurrentUser', useCurrentUser);
+        localStorage.setItem('useCurrentUser', useCurrentUser);
 
-        $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.8;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
+        $('body').append('<div id="qsc-98-log" style="font-weight:bold;font-size:16px;position:fixed;opacity:.9;line-height:2em;color:#fff;background:#000;top:0;left:0;width:100%;height:100%;text-align:left;z-index:9999;padding:3em;">Hello, this is Zeno Zeng\'s qsc-watering-98.js.  Have fun!</div>');
 
         log('target: ' + JSON.encode(targetPosts));
         log('answers: ' + JSON.encode(answers));
@@ -147,7 +148,12 @@ var targetPosts = [];
 
 var currentUsername = 'ROOT';
 
-loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function() {
-    console.log('jQuery Done');
+if (typeof jQuery == 'undefined') {
+    console.log('jQuery already Loaded');
     init();
-});
+} else {
+    loadscript.js("http://code.jquery.com/jquery-1.8.3.min.js", function() {
+        console.log('jQuery Done');
+        init();
+    });
+}
